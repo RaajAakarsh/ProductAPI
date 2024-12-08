@@ -5,6 +5,16 @@
         "src": "app.py",
         "use": "@vercel/python"
       }
+    ],
+    "routes": [
+      {
+        "src": "/products/v1/(.*)",
+        "dest": "/app.py"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/app.py"
+      }
     ]
   }
   
