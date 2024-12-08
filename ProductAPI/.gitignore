@@ -1,0 +1,13 @@
+node_modules/
+
+__pycache__/
+*.pyc
+
+*.log
+*.tmp
+
+.env
+venv/
+ProductApi/venv/
+/assets
+ProductApi/assets/
