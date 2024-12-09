@@ -27,48 +27,48 @@ app.register_blueprint(product_api, url_prefix="/products/v1")
 def home():
     return "Hello World!! This is Product API"
 
-@app.route("/upload_images", methods=["GET"])
-def upload_images():
-    image_folder = 'assets/' 
-    csv_file = 'metadata.csv'
+# @app.route("/upload_images", methods=["GET"])
+# def upload_images():
+#     image_folder = 'assets/' 
+#     csv_file = 'metadata.csv'
 
-    if not os.path.exists(csv_file):
-        return jsonify({"error": "CSV file not found!"}), 400
+#     if not os.path.exists(csv_file):
+#         return jsonify({"error": "CSV file not found!"}), 400
     
-    with open(csv_file, 'r') as file:
-        csv_reader = csv.reader(file)
-        next(csv_reader)
+#     with open(csv_file, 'r') as file:
+#         csv_reader = csv.reader(file)
+#         next(csv_reader)
         
-        for index, row in enumerate(csv_reader, start=1):
-            print(f"Processing row {index}: {row}")
-            image_path = os.path.join(image_folder, f'SamplePic{index}.png')
-            if not os.path.exists(image_path):
-                return jsonify({"error": f"Image {image_path} not found!"}), 400
-            try:
-                name = row[0]
-                price = float(row[1])
-                rating = float(row[2])
-            except ValueError as e:
-                return jsonify({"error": f"Invalid data in CSV row {index}: {e}"}), 400
+#         for index, row in enumerate(csv_reader, start=1):
+#             print(f"Processing row {index}: {row}")
+#             image_path = os.path.join(image_folder, f'SamplePic{index}.png')
+#             if not os.path.exists(image_path):
+#                 return jsonify({"error": f"Image {image_path} not found!"}), 400
+#             try:
+#                 name = row[0]
+#                 price = float(row[1])
+#                 rating = float(row[2])
+#             except ValueError as e:
+#                 return jsonify({"error": f"Invalid data in CSV row {index}: {e}"}), 400
             
-            upload_image(image_path, name, price, rating)
+#             upload_image(image_path, name, price, rating)
     
-    return jsonify({'message': 'All images and metadata uploaded successfully'}), 200
+#     return jsonify({'message': 'All images and metadata uploaded successfully'}), 200
 
-def upload_image(image_path, name, price, rating):
-    with open(image_path, 'rb') as img_file:
-        img_data = img_file.read()
+# def upload_image(image_path, name, price, rating):
+#     with open(image_path, 'rb') as img_file:
+#         img_data = img_file.read()
 
-    file_id = fs.put(img_data, filename=os.path.basename(image_path))
+#     file_id = fs.put(img_data, filename=os.path.basename(image_path))
 
-    metadata = {
-        'name': name,
-        'price': price,
-        'rating': rating,
-        'file_id': file_id  
-    }
+#     metadata = {
+#         'name': name,
+#         'price': price,
+#         'rating': rating,
+#         'file_id': file_id  
+#     }
 
-    metadata_collection.insert_one(metadata)
+#     metadata_collection.insert_one(metadata)
 
 if __name__ == "__main__":
     app.run(debug=True)

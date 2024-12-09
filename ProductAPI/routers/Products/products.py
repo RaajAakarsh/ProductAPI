@@ -29,6 +29,7 @@ def get_product(product_id):
         img_base64 = base64.b64encode(img_data).decode("utf-8")
 
         product_data = {
+            "id": str(metadata["_id"]),
             "name": metadata["name"],
             "price": metadata["price"],
             "rating": metadata["rating"],
@@ -59,7 +60,11 @@ def get_all_products():
 
     try:
         products = []
-        metadata_list = mongo.db.image_metadata.find().skip(start_index).limit(end_index - start_index)
+        metadata_list = (
+            mongo.db.image_metadata.find()
+            .skip(start_index)
+            .limit(end_index - start_index)
+        )
 
         for metadata in metadata_list:
             file_id = metadata.get("file_id")
@@ -71,6 +76,7 @@ def get_all_products():
             img_base64 = base64.b64encode(img_data).decode("utf-8")
 
             product = {
+                "id": str(metadata["_id"]),
                 "name": metadata["name"],
                 "price": metadata["price"],
                 "rating": metadata["rating"],
